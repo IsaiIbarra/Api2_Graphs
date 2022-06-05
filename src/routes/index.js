@@ -34,18 +34,35 @@ router.post('/getRestaurantDistances', (req, res) => {
     (err, rows, fields) => {
       if (!err) {
         for (let i = 0; i < rows.length; i++) {
-          if (rows[i].distance_dis == null) {
+          if (rows[i].distance_dis == null || rows[i].distance_dis == 0) {
             rows[i].distance_dis = 'Unknown';
             console.log(rows[i].distance_dis);
-          } else {
-            rows[i].distance_dis =
-              rows[i].distance_dis + ' ' + rows[i].unit_uni;
           }
         }
         res.json({
           result: true,
           message: 'Successful Query!',
           distances: rows,
+        });
+      } else {
+        console.log(err);
+      }
+    }
+  );
+});
+
+//API for insert distance between restaurants
+router.post('/insertDistance', (req, res) => {
+  const { id_res_a, id_res_b, distance_dis } = req.body;
+  console.log(req.body);
+  mysqlConnection.query(
+    'UPDATE distances SET distance_dis = ? WHERE id_res_a = ? and id_res_b = ?',
+    [distance_dis, id_res_a, id_res_b],
+    (err, rows, fields) => {
+      if (!err) {
+        res.json({
+          result: true,
+          message: 'Updated distance!',
         });
       } else {
         console.log(err);
