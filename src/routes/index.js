@@ -9,7 +9,7 @@ router.use(cors());
 //routes
 
 //API get all restaurants
-router.get('/', (req, res) => {
+router.get('/getRestaurants', (req, res) => {
   mysqlConnection.query('SELECT * FROM restaurants', (err, rows, fields) => {
     if (!err) {
       res.json({

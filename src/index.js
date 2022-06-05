@@ -16,5 +16,5 @@ app.use(require('./routes/index'));
 
 //starting the server
 app.listen(5000, () => {
-  console.log('Conectado...');
+  console.log('Server on PORT 5000');
 });
